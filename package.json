@@ -1,0 +1,22 @@
+{
+  "name": "best_resorts",
+  "version": "1.0.0",
+  "description": "Node project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DmitryKn/Best_resorts.git"
+  },
+  "author": "Dmitry Knyazev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DmitryKn/Best_resorts/issues"
+  },
+  "homepage": "https://github.com/DmitryKn/Best_resorts#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
