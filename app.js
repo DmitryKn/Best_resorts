@@ -1,6 +1,6 @@
 const express = require('express');
 const fs = require('fs');
-
+const route = require('route');
 const app = express();
 
 app.use(express.json());
@@ -9,7 +9,7 @@ const toursData = JSON.parse(
     fs.readFileSync(`${__dirname}/dev-data/tours.json`)
 );
 
-app.get('/api/v1/tours', (req, res) => {
+const getAlltours = (req, res) => {
     res.status(200).json({
         status: 'success',
         results: toursData.length,
@@ -17,9 +17,9 @@ app.get('/api/v1/tours', (req, res) => {
             tours: toursData,
         },
     });
-});
+};
 
-app.get('/api/v1/tours/:id', (req, res) => {
+const getTour = (req, res) => {
     const id = req.params.id * 1;
     const tour = toursData.find((el) => el.id === id);
     //if (id > toursData.length) {
@@ -37,9 +37,9 @@ app.get('/api/v1/tours/:id', (req, res) => {
             tours: tour,
         },
     });
-});
+};
 
-app.post('/api/v1/tours', (req, res) => {
+const createTour = (req, res) => {
     const newId = toursData[toursData.length - 1].id + 1;
     const newTour = Object.assign({ id: newId }, req.body);
 
@@ -53,7 +53,68 @@ app.post('/api/v1/tours', (req, res) => {
             },
         });
     });
-});
+};
+
+const updateTour = (req, res) => {
+    res.status(200).json({
+        data: {
+            tour: '<Updated tour here>',
+        },
+    });
+};
+
+const deleteTour = (req, res) => {
+    res.status(204).json({
+        data: null,
+    });
+};
+
+const getAllUsers = (req, res) => {
+    res.status(500).json({
+        status: 'fail',
+        message: 'This route not implemented',
+    });
+};
+
+const createUser = (req, res) => {
+    res.status(500).json({
+        status: 'fail',
+        message: 'This route not implemented',
+    });
+};
+
+const getUser = (req, res) => {
+    res.status(500).json({
+        status: 'fail',
+        message: 'This route not implemented',
+    });
+};
+
+const updateUser = (req, res) => {
+    res.status(500).json({
+        status: 'fail',
+        message: 'This route not implemented',
+    });
+};
+
+const deleteUser = (req, res) => {
+    res.status(500).json({
+        status: 'fail',
+        message: 'This route not implemented',
+    });
+};
+
+app.route('/api/v1/tours').get(getAlltours).post(createTour);
+app.route('/api/v1/tours/:id')
+    .get(getTour)
+    .patch(updateTour)
+    .delete(deleteTour);
+
+app.route('/api/v1/users/').get(getAllUsers).post(createUser);
+app.route('/api/v1/users/:id')
+    .get(getUser)
+    .patch(updateUser)
+    .delete(deleteUser);
 
 app.listen(8000, () => {
     console.log('Server runs port 8000...');
