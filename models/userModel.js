@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please provide a password'],
         minlength: 6,
+        select: false, //never shows in output
     },
     passwordConfirm: {
         type: String,
@@ -35,6 +36,7 @@ const userSchema = new mongoose.Schema({
     },
 });
 
+//Hashing signup passwords
 userSchema.pre('save', async function (next) {
     //Runs this func if password was modified
     if (!this.isModified('password')) return next();
@@ -44,6 +46,14 @@ userSchema.pre('save', async function (next) {
     this.passwordConfirm = undefined;
     next();
 });
+
+//Comparing login password with DB
+userSchema.methods.correctPassword = async function (
+    candidatePassword,
+    userPassword
+) {
+    return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
